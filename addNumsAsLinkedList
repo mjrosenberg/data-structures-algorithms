@@ -1,0 +1,53 @@
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+/**
+ * @param {ListNode} l1
+ * @param {ListNode} l2
+ * @return {ListNode}
+ */
+var addTwoNumbers = function(l1, l2) {
+    let remainder = 0;
+    let sum = 0;
+    let curr1 = l1;
+    let curr2 = l2;
+    let sumList;
+    let sumListHead;
+    while (curr1 !== null || curr2 !== null){
+        if (curr1 === null){
+            sum = curr2.val + remainder;
+        } else if (curr2 === null){
+            sum = curr1.val + remainder;
+        } else {
+            sum = curr1.val + curr2.val + remainder;
+        }
+        // console.log('curr1', curr1.val, 'curr2', curr2.val, 'remainder', remainder, 'sum is', sum);
+        if (sum > 9){
+            remainder = 1;
+            sum = sum - 10;
+        } else {
+            remainder = 0;
+        }
+        if (sumList === undefined){
+            sumList = new ListNode(sum, null);
+            sumListHead = sumList;
+        } else {
+            sumList.next = new ListNode(sum, null);
+            sumList = sumList.next;
+        }
+        if (curr1 !== null){
+            curr1 = curr1.next;
+        }
+        if (curr2 !== null){
+            curr2 = curr2.next;
+        }
+    }
+    if (remainder > 0){
+        sumList.next = new ListNode(remainder, null);
+    }
+    return sumListHead;
+};
